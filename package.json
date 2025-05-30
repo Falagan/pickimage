@@ -2,7 +2,12 @@
   "name": "@pickimage/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "serve": "nx serve pickimage",
+    "test": "nx test pickimage",
+    "build": "nx build pickimage",
+    "graph": "nx show project pickimage"
+  },
   "private": true,
   "dependencies": {
     "@angular/common": "~19.2.0",
