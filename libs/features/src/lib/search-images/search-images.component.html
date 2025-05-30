@@ -1,0 +1,4 @@
+<ng-container *ngIf="images$ | async as images">
+  Images
+  <p *ngFor="let image of images">{{ image.description }}</p>
+</ng-container>
