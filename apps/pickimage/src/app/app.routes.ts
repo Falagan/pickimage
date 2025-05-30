@@ -1,17 +1,24 @@
 import { Route } from '@angular/router';
 import { IMAGE_REPOSITORY } from '@pickimage/domain';
 import { UnsplashRepository } from '@pickimage/repositories';
+import { LayoutComponent } from './layout/layout.component';
 
 export const appRoutes: Route[] = [
   {
     path: '',
-    providers: [
+    component: LayoutComponent,
+    children: [
       {
-        provide: IMAGE_REPOSITORY,
-        useClass: UnsplashRepository,
+        path: '',
+        loadComponent: () =>
+          import('@pickimage/features').then((c) => c.SearchImagesComponent),
+        providers: [
+          {
+            provide: IMAGE_REPOSITORY,
+            useClass: UnsplashRepository,
+          },
+        ],
       },
     ],
-    loadComponent: () =>
-      import('@pickimage/features').then((c) => c.SearchImagesComponent),
   },
 ];
