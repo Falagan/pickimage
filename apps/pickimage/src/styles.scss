@@ -1,5 +1,5 @@
 @use '@angular/material' as mat;
-
+@include mat.core();
 // dark theme
 $dark-theme: mat.m2-define-dark-theme(
   (
@@ -23,10 +23,12 @@ $light-theme: mat.m2-define-light-theme(
 );
 
 // Apply the light theme by default
-@include mat.core-color($light-theme);
-@include mat.button-color($light-theme);
+ 
+@include mat.all-component-themes($light-theme);
 
 .dark-theme {
-  @include mat.core-theme($dark-theme);
-  @include mat.button-theme($dark-theme);
+  @include mat.all-component-colors($dark-theme);
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
