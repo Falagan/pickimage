@@ -1,9 +1,10 @@
 import { Observable } from 'rxjs';
-import { Image } from '../models/image';
 import { InjectionToken } from '@angular/core';
+import { ImageList } from '../models/image-list.model';
+import { ImageSearch } from '../models/image-search.model';
 
 export const IMAGE_REPOSITORY = new InjectionToken<IImageRepository>('ImageRepository');
 
 export interface IImageRepository {
-  getImages(): Observable<Image[]>;
+  getImages(params: ImageSearch): Observable<ImageList>;
 }
