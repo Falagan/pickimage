@@ -1,17 +1,20 @@
 import { inject, Injectable } from '@angular/core';
-import { Image, IMAGE_REPOSITORY } from '@pickimage/domain';
+import { IMAGE_REPOSITORY, ImageList, ImageSearch } from '@pickimage/domain';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 
 @Injectable()
 export class ImagesService {
   private readonly imageRepository = inject(IMAGE_REPOSITORY);
-  private readonly imagesSubject = new BehaviorSubject<Image[]>([]);
-  public readonly images$: Observable<Image[]> =
+  private readonly imagesSubject = new BehaviorSubject<ImageList>({
+    total: 0,
+    items: [],
+  });
+  public readonly images$: Observable<ImageList> =
     this.imagesSubject.asObservable();
 
-  getImages(): void {
+  public searchImages(params: ImageSearch): void {
     this.imageRepository
-      .getImages()
+      .getImages(params)
       .pipe(map((images) => this.imagesSubject.next(images)))
       .subscribe();
   }
