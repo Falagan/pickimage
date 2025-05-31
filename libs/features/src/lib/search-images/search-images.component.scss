@@ -1,0 +1,22 @@
+.search-images {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: url('/img/back.png') top / cover no-repeat;
+  align-items: center;
+
+  &__input {
+    flex: 0;
+  }
+
+  &__results {
+    flex: 1;
+    overflow: auto;
+    position: relative;
+  }
+
+  &__scroller {
+    position: absolute;
+    inset: 0;
+  }
+}

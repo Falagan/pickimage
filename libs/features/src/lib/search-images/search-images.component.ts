@@ -8,7 +8,7 @@ import { ImageCardComponent } from './components/image-card/image-card.component
 @Component({
   selector: 'feature-search-images',
   templateUrl: './search-images.component.html',
-  styleUrl: './search-images.component.css',
+  styleUrl: './search-images.component.scss',
   imports: [
     AsyncPipe,
     NgFor,
