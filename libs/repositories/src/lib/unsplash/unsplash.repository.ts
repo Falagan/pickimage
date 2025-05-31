@@ -1,18 +1,30 @@
-import { Injectable } from '@angular/core';
-import { UnsplashImageDto } from './dtos/unsplash-image.dto';
-import { IImageRepository, Image } from '@pickimage/domain';
-import { ImageMapper } from './mappers/image.mapper';
-import { of, Observable } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { UnsplashImage } from './dtos/unsplash-image.dto';
+import { IImageRepository, ImageList, ImageSearch } from '@pickimage/domain';
+import { map, Observable } from 'rxjs';
+import { ImageSearchMapper } from './mappers/image-search.mapper';
+import { UnsplashApiResponsePaginated } from './models/unsplash-api-response.model';
+import { UNSPLASH_API } from './config/unsplash-api.config';
+import { ImageListMapper } from './mappers/image-list.mapper';
+import { UnsplashSearchParams } from './dtos/unsplassearh-params.dto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UnsplashRepository implements IImageRepository {
-  getImages(): Observable<Image[]> {
-    const unsplashImages: UnsplashImageDto[] = [
-      { description: 'image 1' },
-      { description: 'image 2' },
-    ];
-    return of(unsplashImages.map((image) => ImageMapper.mapDtoToDomain(image)));
+  private readonly httpClient = inject(HttpClient);
+
+  public getImages(params: ImageSearch): Observable<ImageList> {
+    const mappedParams = ImageSearchMapper.mapDomainToDto(params);
+    const url = this.buildURL(mappedParams);
+
+    return this.httpClient
+      .get<UnsplashApiResponsePaginated<UnsplashImage>>(url)
+      .pipe(map((response) => ImageListMapper.mapDtoToDomain(response)));
+  }
+
+  private buildURL(params: UnsplashSearchParams) {
+    return `${UNSPLASH_API.BASE_URL}/${UNSPLASH_API.ROUTES.SEARCH_PHOTOS}/?client_id=${UNSPLASH_API.API_KEY}&query=${params.text}&order_by=${params.order_by}&per_page=${params.per_page}&page=${params.page}`;
   }
 }
