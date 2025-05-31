@@ -1,4 +1,6 @@
 <ng-container *ngIf="images$ | async as images">
-  Images
-  <p *ngFor="let image of images">{{ image.description }}</p>
+  <shared-input-search [placeholder]="'Search...'" (changeSearch)="onSearch($event)" [debounceTime]="500"/>
+  <shared-image-gallery>
+    <feature-image-card *ngFor="let image of images.items" [image]="image"></feature-image-card>
+  </shared-image-gallery>
 </ng-container>
