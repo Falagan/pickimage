@@ -23,12 +23,20 @@ $light-theme: mat.m2-define-light-theme(
 );
 
 // Apply the light theme by default
- 
+
 @include mat.all-component-themes($light-theme);
 
 .dark-theme {
+  background: mat.m2-get-color-from-palette(mat.$m2-grey-palette, 900);
+  color: mat.m2-get-color-from-palette(mat.$m2-grey-palette, 50);
   @include mat.all-component-colors($dark-theme);
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
