@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { Image } from '@pickimage/domain';
 import { MatButtonModule } from '@angular/material/button';
@@ -13,4 +19,9 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class ImageCardComponent {
   @Input() image!: Image;
+  @Output() clickImage = new EventEmitter<Image>();
+
+  public onClickImage() {
+    this.clickImage.emit(this.image);
+  }
 }
