@@ -3,7 +3,7 @@ import { IMAGE_REPOSITORY, ImageList, ImageSearch } from '@pickimage/domain';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 
 @Injectable()
-export class ImagesService {
+export class SearchImagesService {
   private readonly imageRepository = inject(IMAGE_REPOSITORY);
   private readonly imagesSubject = new BehaviorSubject<ImageList>({
     total: 0,
