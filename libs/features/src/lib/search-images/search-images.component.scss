@@ -7,6 +7,9 @@
 
   &__input {
     flex: 0;
+    min-width: 350px;
+    max-width: 500px;
+    margin-top: 50px;
   }
 
   &__results {
