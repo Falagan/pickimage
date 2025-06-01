@@ -19,6 +19,17 @@ export const appRoutes: Route[] = [
           },
         ],
       },
+      {
+        path: 'image/:id',
+        loadComponent: () =>
+          import('@pickimage/features').then((c) => c.ImageDetailComponent),
+        providers: [
+          {
+            provide: IMAGE_REPOSITORY,
+            useClass: UnsplashRepository,
+          },
+        ],
+      },
     ],
   },
 ];
