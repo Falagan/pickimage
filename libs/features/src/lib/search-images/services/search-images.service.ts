@@ -12,13 +12,14 @@ export class SearchImagesService {
   private searchParams: ImageSearch = { page: 1, itemsPerPage: 10 };
 
   public searchImages(text: string): void {
+    this.saveLastSearch(text);
     this.setSearchParams({ page: 1, text });
 
     this.imageRepository
       .getImages(this.getSearchParams())
       .pipe(
         map((images) => {
-          this.setImages(images)
+          this.setImages(images);
         })
       )
       .subscribe();
@@ -42,6 +43,13 @@ export class SearchImagesService {
     this.imagesSubject.next({ total: 0, items: [] });
   }
 
+  public loadLastSearch() {
+    const lastSearch = this.getLastSearch();
+    if (lastSearch) {
+      this.searchImages(lastSearch);
+    }
+  }
+
   public getImages(): Observable<ImageList> {
     return this.imagesSubject.asObservable();
   }
@@ -59,6 +67,14 @@ export class SearchImagesService {
       ...this.searchParams,
       ...params,
     };
+  }
+
+  private saveLastSearch(text: string) {
+    localStorage.setItem('search', text);
+  }
+
+  private getLastSearch(): string | null {
+    return localStorage.getItem('search');
   }
 
   private pushImages(images: ImageList) {

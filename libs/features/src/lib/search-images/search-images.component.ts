@@ -2,7 +2,7 @@ import {
   InputSearchComponent,
   ScrollTrackerDirective,
 } from '@pickimage/shared';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { SearchImagesService } from './services/search-images.service';
 import { AsyncPipe } from '@angular/common';
 import { Image } from '@pickimage/domain';
@@ -21,11 +21,14 @@ import { SearchResultsComponent } from './components/search-results/search-resul
   providers: [SearchImagesService],
   standalone: true,
 })
-export class SearchImagesComponent {
+export class SearchImagesComponent implements OnInit {
   private readonly routerService = inject(Router);
   private readonly imagesService = inject(SearchImagesService);
   public images$ = this.imagesService.getImages();
-  public loading$ = this.imagesService.getLoading();
+
+  ngOnInit() {
+    this.imagesService.loadLastSearch()
+  }
 
   onSearch(text: string) {
     this.imagesService.searchImages(text);
