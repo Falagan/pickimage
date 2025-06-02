@@ -7,7 +7,9 @@ describe('LayoutService', () => {
   let service: LayoutService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [LayoutService],
+    });
     service = TestBed.inject(LayoutService);
   });
 
@@ -19,13 +21,13 @@ describe('LayoutService', () => {
     // Arrange/Act
     service.setTheme(THEME.DARK);
     // Assert
-    expect(document.body.classList.contains('dark-theme')).toBeTrue();
+    expect(document.body.classList.contains('dark-theme')).toBeTruthy();
   });
 
   it('should not add "dark-theme" class when THEME.LIGHT is set', () => {
     // Arrange/Act
     service.setTheme(THEME.LIGHT);
     // Assert
-    expect(document.body.classList.contains('dark-theme')).toBeFalse();
+    expect(document.body.classList.contains('dark-theme')).toBeFalsy();
   });
 });
