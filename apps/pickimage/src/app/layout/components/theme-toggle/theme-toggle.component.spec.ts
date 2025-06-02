@@ -32,32 +32,32 @@ describe('ThemeToggleComponent', () => {
 
   it('should toggle to DARK and emit change event', () => {
     // Arrange
-    spyOn(component.change, 'emit');
+    jest.spyOn(component.toggleTheme, 'emit');
     // Act
-    component.toggleTheme();
+    component.onToggleTheme();
     // Assert
     expect(component.theme()).toBe(THEME.DARK);
-    expect(component.change.emit).toHaveBeenCalledWith(THEME.DARK);
+    expect(component.toggleTheme.emit).toHaveBeenCalledWith(THEME.DARK);
   });
 
   it('should toggle back to LIGHT and emit change event', () => {
     // Arrange
-    spyOn(component.change, 'emit');
-    component.toggleTheme();
+    jest.spyOn(component.toggleTheme, 'emit');
+    component.onToggleTheme();
     // Act
-    component.toggleTheme();
+    component.onToggleTheme();
     // Assert
     expect(component.theme()).toBe(THEME.LIGHT);
-    expect(component.change.emit).toHaveBeenCalledWith(THEME.LIGHT);
+    expect(component.toggleTheme.emit).toHaveBeenCalledWith(THEME.LIGHT);
   });
 
   it('should emit change event on toggle', () => {
     // Arrange
-    spyOn(component.change, 'emit');
+    jest.spyOn(component.toggleTheme, 'emit');
     // Act
-    component.toggleTheme();
+    component.onToggleTheme();
     // Assert
-    expect(component.change.emit).toHaveBeenCalledTimes(1);
-    expect(component.change.emit).toHaveBeenCalledWith(THEME.DARK);
+    expect(component.toggleTheme.emit).toHaveBeenCalledTimes(1);
+    expect(component.toggleTheme.emit).toHaveBeenCalledWith(THEME.DARK);
   });
 });
