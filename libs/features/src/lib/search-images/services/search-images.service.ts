@@ -9,13 +9,63 @@ export class SearchImagesService {
     total: 0,
     items: [],
   });
-  public readonly images$: Observable<ImageList> =
-    this.imagesSubject.asObservable();
+  private searchParams: ImageSearch = { page: 1, itemsPerPage: 10 };
 
-  public searchImages(params: ImageSearch): void {
+  public searchImages(text: string): void {
+    this.setSearchParams({ page: 1, text });
+
     this.imageRepository
-      .getImages(params)
-      .pipe(map((images) => this.imagesSubject.next(images)))
+      .getImages(this.getSearchParams())
+      .pipe(
+        map((images) => {
+          this.setImages(images)
+        })
+      )
       .subscribe();
+  }
+
+  public loadMoreImages(): void {
+    const { page: currentPage } = this.getSearchParams();
+    this.setSearchParams({ page: currentPage + 1 });
+
+    this.imageRepository
+      .getImages(this.getSearchParams())
+      .pipe(
+        map((images) => {
+          this.pushImages(images);
+        })
+      )
+      .subscribe();
+  }
+
+  public clearImages(): void {
+    this.imagesSubject.next({ total: 0, items: [] });
+  }
+
+  public getImages(): Observable<ImageList> {
+    return this.imagesSubject.asObservable();
+  }
+
+  public setImages(newList: ImageList) {
+    this.imagesSubject.next(newList);
+  }
+
+  public getSearchParams(): ImageSearch {
+    return this.searchParams;
+  }
+
+  public setSearchParams(params: Partial<ImageSearch>) {
+    this.searchParams = {
+      ...this.searchParams,
+      ...params,
+    };
+  }
+
+  private pushImages(images: ImageList) {
+    const { items, total } = this.imagesSubject.getValue();
+    this.imagesSubject.next({
+      items: [...items, ...images.items],
+      total: total + images.total,
+    });
   }
 }
