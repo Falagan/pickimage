@@ -48,6 +48,7 @@ export class UnsplashImageBuilder {
         html: 'https://unsplash.com/photos/img-123',
         download: 'https://unsplash.com/photos/img-123/download',
       },
+      tags: []
     };
   }
 
