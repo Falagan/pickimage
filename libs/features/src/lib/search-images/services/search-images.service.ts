@@ -11,7 +11,7 @@ export class SearchImagesService {
 
   public async searchImages(text: string) {
     this.setCriteria({ page: 1, text });
-    this.setToLocalStorage(this.getCriteria());
+    this.setToLocalStorage(text);
 
     const images = await lastValueFrom(
       this.repository.getImages(this.getCriteria())
@@ -59,16 +59,12 @@ export class SearchImagesService {
     };
   }
 
-  private setToLocalStorage(criteria: ImageSearch) {
-    localStorage.setItem('search', JSON.stringify(criteria));
+  private setToLocalStorage(text: string) {
+    localStorage.setItem('search', text);
   }
 
   public getFromLocalStorage(): string | null {
-    const criteria = localStorage.getItem('search');
-    if (criteria) {
-      return JSON.parse(criteria);
-    }
-    return null;
+    return localStorage.getItem('search');
   }
 
   private pushImages(images: ImageList) {
