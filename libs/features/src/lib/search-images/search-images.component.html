@@ -8,7 +8,7 @@
     </div>
   </div>
   <!-- results -->
-  <div class="search-images__results" sharedScrollTracker (scrolledToBottom)="onScroll()">
+  <div class="search-images__results" sharedScrollTracker (scrolledToBottom)="onScroll()" [offsetPx]="10">
     <div class="search-images__scroller">
       <feature-search-results [images]="images.items" (imageClick)="onNavigateToImageDetail($event)" />
     </div>

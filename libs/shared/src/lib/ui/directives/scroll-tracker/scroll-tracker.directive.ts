@@ -5,6 +5,7 @@ import {
   ElementRef,
   EventEmitter,
   inject,
+  Input,
   Output,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -19,6 +20,7 @@ export class ScrollTrackerDirective implements AfterViewInit {
   @Output() scrollPosition = new EventEmitter<number>();
   @Output() scrolledToBottom = new EventEmitter<void>();
   @Output() scrolledToTop = new EventEmitter<void>();
+  @Input() offsetPx = 0;
 
   ngAfterViewInit(): void {
     const element = this.elementRef.nativeElement;
@@ -36,7 +38,7 @@ export class ScrollTrackerDirective implements AfterViewInit {
         this.scrollPosition.emit(scrollTop);
 
         // Detect bottom
-        if (scrollTop + clientHeight >= scrollHeight) {
+        if (scrollTop != 0 && scrollTop + clientHeight >= scrollHeight - this.offsetPx) {
           this.scrolledToBottom.emit();
         }
 
@@ -46,5 +48,4 @@ export class ScrollTrackerDirective implements AfterViewInit {
         }
       });
   }
-
 }
