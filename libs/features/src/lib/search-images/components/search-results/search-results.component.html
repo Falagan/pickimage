@@ -1,0 +1,5 @@
+<shared-image-gallery>
+  @for (image of images; track $index) {
+  <feature-image-card [image]="image" (clickImage)="onClickImage($event)" />
+  }
+</shared-image-gallery>
