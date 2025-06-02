@@ -1,22 +1,22 @@
-import { InputSearchComponent } from '@pickimage/shared';
-import { ImageGalleryComponent } from '@pickimage/shared';
+import {
+  InputSearchComponent,
+  ScrollTrackerDirective,
+} from '@pickimage/shared';
 import { Component, inject } from '@angular/core';
 import { SearchImagesService } from './services/search-images.service';
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { ImageCardComponent } from './components/image-card/image-card.component';
+import { AsyncPipe } from '@angular/common';
 import { Image } from '@pickimage/domain';
 import { Router } from '@angular/router';
+import { SearchResultsComponent } from './components/search-results/search-results.component';
 @Component({
   selector: 'feature-search-images',
   templateUrl: './search-images.component.html',
   styleUrl: './search-images.component.scss',
   imports: [
     AsyncPipe,
-    NgFor,
-    NgIf,
-    ImageCardComponent,
-    ImageGalleryComponent,
     InputSearchComponent,
+    SearchResultsComponent,
+    ScrollTrackerDirective,
   ],
   providers: [SearchImagesService],
   standalone: true,
@@ -24,10 +24,19 @@ import { Router } from '@angular/router';
 export class SearchImagesComponent {
   private readonly routerService = inject(Router);
   private readonly imagesService = inject(SearchImagesService);
-  public images$ = this.imagesService.images$;
+  public images$ = this.imagesService.getImages();
+  public loading$ = this.imagesService.getLoading();
 
   onSearch(text: string) {
-    this.imagesService.searchImages({ page: 1, itemsPerPage: 10, text });
+    this.imagesService.searchImages(text);
+  }
+
+  onCleanSearch() {
+    this.imagesService.clearImages();
+  }
+
+  onScroll() {
+    this.imagesService.loadMoreImages();
   }
 
   onNavigateToImageDetail(image: Image) {

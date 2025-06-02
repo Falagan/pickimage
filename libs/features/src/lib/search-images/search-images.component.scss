@@ -5,16 +5,17 @@
   background: url('/img/back.png') top / cover no-repeat;
 
   &__search {
+    display: flex;
     flex: 0;
+    margin-top: 4rem;
     justify-content: center;
-    margin-top: 50px;
   }
 
   &__input {
-    min-width: 350px;
-    max-width: 500px;
+    min-width: 22rem;
+    max-width: 28rem;
   }
-  
+
   &__results {
     flex: 1;
     overflow: auto;
@@ -24,5 +25,10 @@
   &__scroller {
     position: absolute;
     inset: 0;
+  }
+
+  &__loading {
+    position: relative;
+    margin: 0 auto;
   }
 }

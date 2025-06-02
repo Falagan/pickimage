@@ -1,19 +1,17 @@
-<ng-container *ngIf="images$ | async as images">
-  <div class="search-images">
-    <!-- search -->
-    <div class="search-images__search">
-      <div class="search-images__input">
-        <shared-input-search [placeholder]="'Search...'" (changeSearch)="onSearch($event)" [debounceTime]="500" />
-      </div>
-    </div>
-    <!-- results -->
-    <div class="search-images__results">
-      <div class="search-images__scroller">
-        <shared-image-gallery>
-          <feature-image-card *ngFor="let image of images.items" [image]="image"
-            (clickImage)="onNavigateToImageDetail($event)" />
-        </shared-image-gallery>
-      </div>
+@if(images$ | async; as images) {
+<div class="search-images">
+  <!-- search -->
+  <div class="search-images__search">
+    <div class="search-images__input">
+      <shared-input-search [placeholder]="'Search...'" (changeSearch)="onSearch($event)"
+        (cleanSearch)="onCleanSearch()" [debounceTime]="500" />
     </div>
   </div>
-</ng-container>
+  <!-- results -->
+  <div class="search-images__results" sharedScrollTracker (scrolledToBottom)="onScroll()">
+    <div class="search-images__scroller">
+      <feature-search-results [images]="images.items" (imageClick)="onNavigateToImageDetail($event)" />
+    </div>
+  </div>
+</div>
+}
