@@ -4,19 +4,17 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 
 @Injectable()
 export class SearchImagesService {
-  private readonly imageRepository = inject(IMAGE_REPOSITORY);
-  private readonly imagesSubject = new BehaviorSubject<ImageList>({
-    total: 0,
-    items: [],
-  });
-  private searchParams: ImageSearch = { page: 1, itemsPerPage: 10 };
+  private repository = inject(IMAGE_REPOSITORY);
+  private criteria: ImageSearch = { page: 1, itemsPerPage: 10 };
+  private initImages: ImageList = { total: 0, items: [] };
+  private images = new BehaviorSubject<ImageList>(this.initImages);
 
   public searchImages(text: string): void {
-    this.saveLastSearch(text);
-    this.setSearchParams({ page: 1, text });
+    this.setCriteria({ page: 1, text });
+    this.setToLocalStorage(this.getCriteria())
 
-    this.imageRepository
-      .getImages(this.getSearchParams())
+    this.repository
+      .getImages(this.getCriteria())
       .pipe(
         map((images) => {
           this.setImages(images);
@@ -26,11 +24,11 @@ export class SearchImagesService {
   }
 
   public loadMoreImages(): void {
-    const { page: currentPage } = this.getSearchParams();
-    this.setSearchParams({ page: currentPage + 1 });
+    const { page: currentPage } = this.getCriteria();
+    this.setCriteria({ page: currentPage + 1 });
 
-    this.imageRepository
-      .getImages(this.getSearchParams())
+    this.repository
+      .getImages(this.getCriteria())
       .pipe(
         map((images) => {
           this.pushImages(images);
@@ -39,47 +37,51 @@ export class SearchImagesService {
       .subscribe();
   }
 
-  public clearImages(): void {
-    this.imagesSubject.next({ total: 0, items: [] });
+  public resetImages(): void {
+    this.images.next(this.initImages);
   }
 
   public loadLastSearch() {
-    const lastSearch = this.getLastSearch();
+    const lastSearch = this.getFromLocalStorage();
     if (lastSearch) {
       this.searchImages(lastSearch);
     }
   }
 
   public getImages(): Observable<ImageList> {
-    return this.imagesSubject.asObservable();
+    return this.images.asObservable();
   }
 
   public setImages(newList: ImageList) {
-    this.imagesSubject.next(newList);
+    this.images.next(newList);
   }
 
-  public getSearchParams(): ImageSearch {
-    return this.searchParams;
+  public getCriteria(): ImageSearch {
+    return this.criteria;
   }
 
-  public setSearchParams(params: Partial<ImageSearch>) {
-    this.searchParams = {
-      ...this.searchParams,
+  public setCriteria(params: Partial<ImageSearch>) {
+    this.criteria = {
+      ...this.criteria,
       ...params,
     };
   }
 
-  private saveLastSearch(text: string) {
-    localStorage.setItem('search', text);
+  private setToLocalStorage(criteria: ImageSearch) {
+    localStorage.setItem('search', JSON.stringify(criteria));
   }
 
-  private getLastSearch(): string | null {
-    return localStorage.getItem('search');
+  public getFromLocalStorage(): string | null {
+    const criteria = localStorage.getItem('search');
+    if (criteria) {
+      return JSON.parse(criteria);
+    }
+    return null;
   }
 
   private pushImages(images: ImageList) {
-    const { items, total } = this.imagesSubject.getValue();
-    this.imagesSubject.next({
+    const { items, total } = this.images.getValue();
+    this.images.next({
       items: [...items, ...images.items],
       total: total + images.total,
     });

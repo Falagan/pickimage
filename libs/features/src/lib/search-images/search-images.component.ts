@@ -27,7 +27,7 @@ export class SearchImagesComponent implements OnInit {
   public images$ = this.imagesService.getImages();
 
   ngOnInit() {
-    this.imagesService.loadLastSearch()
+    this.imagesService.loadLastSearch();
   }
 
   onSearch(text: string) {
@@ -35,7 +35,7 @@ export class SearchImagesComponent implements OnInit {
   }
 
   onCleanSearch() {
-    this.imagesService.clearImages();
+    this.imagesService.resetImages();
   }
 
   onScroll() {
