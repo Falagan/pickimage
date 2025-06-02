@@ -1,0 +1,19 @@
+.image-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+
+  &__username {
+    font-size: large;
+  }
+
+  &__likes {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: x-large;
+    font-weight: 500;
+  }
+}

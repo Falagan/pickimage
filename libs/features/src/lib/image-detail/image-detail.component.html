@@ -1,3 +1,14 @@
-<ng-container *ngIf="image$ | async as image">
-  <img [src]="image.urls.full" alt [width]="image.width"/>
-</ng-container>
+@if(image$ | async; as image) {
+<div class="image-detail">
+  <div class="image-detail__back">
+    <feature-image-go-to-search (goToSearch)="onGoImageSearch()" />
+  </div>
+  <div class="image-detail__content">
+    <div class="image-detail__scroller">
+      <feature-image-info [username]="image.username" [likes]="image.likes" />
+      <feature-image-content [url]="image.urls.full" />
+      <feature-image-tags [tags]="image.tags" />
+    </div>
+  </div>
+</div>
+}
