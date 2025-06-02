@@ -1,0 +1,12 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem;
+
+  &__title {
+    font-size: xx-large;
+    background-color: #fdec4a;
+    padding: 1rem;
+    font-weight: 500;
+  }
+}
