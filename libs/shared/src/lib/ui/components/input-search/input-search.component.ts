@@ -7,6 +7,7 @@ import {
   Input,
   OnInit,
   Output,
+  signal,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,7 +16,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { debounceTime, Subject } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'shared-input-search',
@@ -25,7 +25,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     FormsModule,
     MatButtonModule,
     MatIconModule,
-    MatProgressSpinnerModule
   ],
   templateUrl: './input-search.component.html',
   styleUrl: './input-search.component.scss',
@@ -34,21 +33,19 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 })
 export class InputSearchComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
-
-  @Input() placeholder!: string;
-  @Input() debounceTime = 0;
   @Output() changeSearch = new EventEmitter<string>();
   @Output() cleanSearch = new EventEmitter<void>();
-
+  @Input() placeholder!: string;
+  @Input() debounceTime = 0;
   private changeSubject = new Subject<string>();
-  public value = '';
+  public value = signal('');
 
   ngOnInit(): void {
     this.subscribeToInputChanges();
   }
 
   public onClearValue() {
-    this.value = '';
+    this.value.set('');
     this.cleanSearch.emit();
   }
 
@@ -56,10 +53,9 @@ export class InputSearchComponent implements OnInit {
     if (text === '') {
       this.cleanSearch.emit();
     } else {
-      this.changeSubject.next(text)
+      this.changeSubject.next(text);
     }
   }
-  
 
   private subscribeToInputChanges() {
     this.changeSubject

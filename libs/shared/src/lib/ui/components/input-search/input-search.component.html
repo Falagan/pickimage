@@ -5,7 +5,7 @@
   }
   <input matInput type="text" [(ngModel)]="value" (ngModelChange)="onChange($event)">
   <!-- clear subfix -->
-  @if (value) {
+  @if (value()) {
   <button matSuffix mat-icon-button (click)="onClearValue()">
     <mat-icon>close</mat-icon>
   </button>
