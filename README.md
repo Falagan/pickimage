@@ -27,12 +27,14 @@ npm run graph
 ```
 ## Architecture
 
+![alt text](docs/image.png)
+![alt text](docs/image2.png)
+
 ## Features
 
 - Responsive
 - Dark Theme
-- i18n support
 - Infinite Scroll Search
 - Keep last image search on reload
 - Load last image detail on reload
-- Testing fluent builder pattern
+- [Testing with fluent builder pattern](./libs/repositories/src/lib/unsplash/unsplash.repository.spec.ts)
