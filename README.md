@@ -28,7 +28,7 @@ npm run graph
 ## Architecture
 
 ![alt text](docs/image.png)
-![alt text](docs/image2.png)
+![alt text](docs/image_2.png)
 
 ## Features
 
