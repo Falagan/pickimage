@@ -42,4 +42,5 @@ export interface UnsplashImage {
     html: string;
     download: string;
   };
+  tags: {type: string, title:string}[]
 }

@@ -17,6 +17,9 @@ export class ImageMapper {
       width: dto.width,
       height: dto.height,
       createdAt: dto.created_at,
+      likes: dto.likes,
+      username: dto.user.name,
+      tags: dto.tags ? dto.tags.map( tag => tag.title) : []
     };
   }
 }

@@ -1,4 +1,4 @@
-import { ImageUrls } from "./image-urls.model";
+import { ImageUrls } from './image-urls.model';
 
 export interface Image {
   id: string;
@@ -8,4 +8,7 @@ export interface Image {
   description: string;
   createdAt: Date;
   urls: ImageUrls;
+  likes: number;
+  username: string;
+  tags: string[];
 }
