@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { IMAGE_REPOSITORY, ImageList, ImageSearch } from '@pickimage/domain';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, lastValueFrom, map, Observable } from 'rxjs';
 
 @Injectable()
 export class SearchImagesService {
@@ -9,32 +9,24 @@ export class SearchImagesService {
   private initImages: ImageList = { total: 0, items: [] };
   private images = new BehaviorSubject<ImageList>(this.initImages);
 
-  public searchImages(text: string): void {
+  public async searchImages(text: string) {
     this.setCriteria({ page: 1, text });
-    this.setToLocalStorage(this.getCriteria())
+    this.setToLocalStorage(this.getCriteria());
 
-    this.repository
-      .getImages(this.getCriteria())
-      .pipe(
-        map((images) => {
-          this.setImages(images);
-        })
-      )
-      .subscribe();
+    const images = await lastValueFrom(
+      this.repository.getImages(this.getCriteria())
+    );
+    this.setImages(images);
   }
 
-  public loadMoreImages(): void {
+  public async loadMoreImages() {
     const { page: currentPage } = this.getCriteria();
     this.setCriteria({ page: currentPage + 1 });
 
-    this.repository
-      .getImages(this.getCriteria())
-      .pipe(
-        map((images) => {
-          this.pushImages(images);
-        })
-      )
-      .subscribe();
+    const images = await lastValueFrom(
+      this.repository.getImages(this.getCriteria())
+    );
+    this.pushImages(images);
   }
 
   public resetImages(): void {
