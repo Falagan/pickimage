@@ -15,6 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { debounceTime, Subject } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'shared-input-search',
@@ -24,6 +25,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     FormsModule,
     MatButtonModule,
     MatIconModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './input-search.component.html',
   styleUrl: './input-search.component.scss',
@@ -36,6 +38,7 @@ export class InputSearchComponent implements OnInit {
   @Input() placeholder!: string;
   @Input() debounceTime = 0;
   @Output() changeSearch = new EventEmitter<string>();
+  @Output() cleanSearch = new EventEmitter<void>();
 
   private changeSubject = new Subject<string>();
   public value = '';
@@ -46,11 +49,17 @@ export class InputSearchComponent implements OnInit {
 
   public onClearValue() {
     this.value = '';
+    this.cleanSearch.emit();
   }
 
   public onChange(text: string) {
-    this.changeSubject.next(text);
+    if (text === '') {
+      this.cleanSearch.emit();
+    } else {
+      this.changeSubject.next(text)
+    }
   }
+  
 
   private subscribeToInputChanges() {
     this.changeSubject

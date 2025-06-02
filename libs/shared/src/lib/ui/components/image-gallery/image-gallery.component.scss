@@ -1,0 +1,17 @@
+.gallery-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+
+  /* Tablet (between 600px and 900px) */
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+  }
+
+  /* Mobile (less than 600px) */
+  @media (max-width: 600px) {
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+  }
+}
