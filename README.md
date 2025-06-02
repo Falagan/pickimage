@@ -38,3 +38,4 @@ npm run graph
 - Keep last image search on reload
 - Load last image detail on reload
 - [Testing with fluent builder pattern](./libs/repositories/src/lib/unsplash/unsplash.repository.spec.ts)
+- [Testing with jest and AAA strategy](./apps/pickimage/src/app/layout/components/theme-toggle/theme-toggle.component.spec.ts)
