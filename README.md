@@ -25,3 +25,14 @@ To see all available targets to run for a project, run:
 ```sh
 npm run graph
 ```
+## Architecture
+
+## Features
+
+- Responsive
+- Dark Theme
+- i18n support
+- Infinite Scroll Search
+- Keep last image search on reload
+- Load last image detail on reload
+- Testing fluent builder pattern
