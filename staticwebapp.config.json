@@ -1,1 +1,8 @@
-{}
+{
+  "routes": [
+    {
+      "route": "/image",
+      "statusCode": 404
+    }
+  ]
+}
