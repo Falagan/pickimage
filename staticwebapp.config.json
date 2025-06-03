@@ -2,8 +2,7 @@
   "routes": [
     {
       "route": "/*",
-      "redirect": "/index.html",
-      "statusCode": 404
+      "redirect": "/index.html"
     }
   ]
 }
